@@ -15,9 +15,7 @@ const rulesBtn = document.querySelector("#rules-btn");
 const diceBtn = document.querySelector("#dice-btn");
 const dice1 = document.querySelector("#dice-1");
 const dice2 = document.querySelector("#dice-2");
-
-const values = [];
-const imagesArr = [];
+const sumText = document.querySelector("#sum");
 
 function showScreen(screenName) {
   const screens = [menuScreen, rulesScreen, gameScreen, resultScreen].filter(
@@ -47,9 +45,10 @@ function rollDice() {
   let dice2Value = randomDiceIdx1;
 
   sum = dice1Value + dice2Value;
-  console.log(sum);
+
   dice1.src = `images/inverted-dice-${dice1Value}.png`;
   dice2.src = `images/inverted-dice-${dice2Value}.png`;
+  sumText.textContent = `${sum}`;
 }
 
-rollDice();
+diceBtn.addEventListener("click", rollDice);
