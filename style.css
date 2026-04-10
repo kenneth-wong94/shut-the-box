@@ -146,3 +146,7 @@ h1 {
 .dice-btn:hover {
   background-color: hsl(240, 27%, 65%);
 }
+
+.selected {
+  background-color: hsl(34, 45%, 65%);
+}
