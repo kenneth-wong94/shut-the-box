@@ -21,7 +21,7 @@
   <body>
     <main class="app-container">
       <!-- Menu page -->
-      <div id="mainmenu-screen" class="screen active">
+      <div id="mainmenu-screen" class="screen">
         <div class="logoimg">
           <img class="logo" src="images/logo.jpg" alt="shut the box logo" />
         </div>
@@ -37,7 +37,7 @@
         <h1>HII</h1>
       </div>
       <!-- game page -->
-      <div id="game-screen" class="screen">
+      <div id="game-screen" class="screen active">
         <div class="game-header">
           <h1>Game Board</h1>
           <div class="selection">
@@ -58,11 +58,21 @@
           <div class="tiles">9</div>
         </div>
         <div class="dices">
-          <img class="dice-img" src="images/inverted-dice-1.png" alt="" />
-          <img class="dice-img" src="images/inverted-dice-1.png" alt="" />
+          <img
+            class="dice-img"
+            id="dice-1"
+            src="images/inverted-dice-1.png"
+            alt="dice1 img"
+          />
+          <img
+            class="dice-img"
+            id="dice-2"
+            src="images/inverted-dice-1.png"
+            alt="dice2 img"
+          />
         </div>
         <div class="dice-submit-container">
-          <button class="dice-btn">Roll Dice</button>
+          <button class="dice-btn" id="dice-btn">Roll Dice</button>
           <button class="submit-btn">Submit selection</button>
         </div>
       </div>
