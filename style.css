@@ -94,6 +94,7 @@ h1 {
 }
 
 .tiles {
+  color: hsla(0, 0%, 100%, 0.555);
   border: 1px solid black;
   width: 10vw;
   height: 20vh;
@@ -149,4 +150,8 @@ h1 {
 
 .selected {
   background-color: hsl(34, 45%, 65%);
+}
+
+.disabled {
+  background-color: black;
 }

@@ -18,11 +18,19 @@ const dice2 = document.querySelector("#dice-2");
 const sumText = document.querySelector("#sum");
 const tiles = document.querySelectorAll(".tiles");
 const submitBtn = document.querySelector(".submit-btn");
+const messageInput = document.querySelector("#message-el");
 
 const board = [];
 let isRunning = false;
 let isWinner = false;
 let sum = "";
+
+initializeGame();
+
+function initializeGame() {
+  isRunning = true;
+  isWinner = false;
+}
 
 function showScreen(screenName) {
   const screens = [menuScreen, rulesScreen, gameScreen, resultScreen].filter(
@@ -72,7 +80,31 @@ function updateTile(e) {
   }
 
   if (board.length === 2) return;
+  if (e.target.classList.contains("disabled")) return;
 
   board.push(value);
   e.target.classList.add("selected");
 }
+
+submitBtn.addEventListener("click", submitSelection);
+
+function submitSelection() {
+  const total = board.reduce((sum, num) => sum + num, 0);
+  if (total === sum) {
+    tiles.forEach((tile) => {
+      const value = Number(tile.innerText);
+      if (board.includes(value)) {
+        tile.classList.add("disabled");
+      }
+    });
+    checkWinner();
+    board.length = 0;
+  } else {
+    messageInput.innerText = "Please select valid choice";
+    tiles.forEach((tile) => {
+      tile.classList.remove("selected");
+    });
+  }
+}
+
+function checkWinner() {}
