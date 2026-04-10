@@ -20,7 +20,7 @@ const tiles = document.querySelectorAll(".tiles");
 const submitBtn = document.querySelector(".submit-btn");
 const messageInput = document.querySelector("#message-el");
 
-const board = [];
+let board = [];
 let isRunning = false;
 let isWinner = false;
 let sum = "";
@@ -61,7 +61,9 @@ function rollDice() {
   dice2.src = `images/inverted-dice-${dice2Value}.png`;
   sumText.innerText = `You rolled ${sum}`;
 
-  board.length = 0;
+  diceBtn.disabled = true;
+  submitBtn.disabled = false;
+  board = [];
 }
 
 diceBtn.addEventListener("click", rollDice);
@@ -79,7 +81,6 @@ function updateTile(e) {
     return;
   }
 
-  if (board.length === 2) return;
   if (e.target.classList.contains("disabled")) return;
 
   board.push(value);
@@ -90,21 +91,44 @@ submitBtn.addEventListener("click", submitSelection);
 
 function submitSelection() {
   const total = board.reduce((sum, num) => sum + num, 0);
+
   if (total === sum) {
     tiles.forEach((tile) => {
       const value = Number(tile.innerText);
       if (board.includes(value)) {
         tile.classList.add("disabled");
+        messageInput.innerText = "Roll the dice again!";
+        sumText.innerText = "";
+        submitBtn.disabled = true;
       }
     });
     checkWinner();
+    checkValidMoves();
     board.length = 0;
+    diceBtn.disabled = false;
   } else {
-    messageInput.innerText = "Please select valid choice";
+    messageInput.innerText = "Please select valid tiles!";
+    board = [];
     tiles.forEach((tile) => {
       tile.classList.remove("selected");
     });
   }
 }
 
-function checkWinner() {}
+function checkWinner() {
+  const remainingTiles = Array.from(tiles)
+    .filter((tile) => !tile.classList.contains("disabled"))
+    .map((tile) => Number(tile.innerText));
+
+  const valueOfRemainingTiles = remainingTiles.reduce((total, ele) => {
+    return total + ele;
+  }, 0);
+
+  if (valueOfRemainingTiles === 0) {
+    messageInput.innerText = "Your a winner!";
+    return true;
+  }
+  return false;
+}
+
+function checkValidMoves() {}
