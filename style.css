@@ -16,6 +16,7 @@
 
 body {
   background: hsl(111, 29%, 25%);
+  font-family: "Science Gothic", sans-serif;
 }
 
 .app-container,
@@ -58,10 +59,70 @@ body {
 
 .screen {
   display: none;
+  width: 100%;
   padding: clamp(1.3rem, 3vw, 2rem);
   animation: fade-up 260ms ease;
 }
 
 .screen.active {
   display: block;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-board {
+  display: flex;
+  gap: 10px;
+}
+
+.tiles {
+  border: 1px solid black;
+  width: 10vw;
+  height: 20vh;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(34, 45%, 50%);
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.tiles:hover {
+  background-color: hsl(34, 45%, 65%);
+}
+
+.dices {
+  margin-top: 2em;
+  display: flex;
+  justify-content: space-around;
+}
+
+.dice-img {
+  width: 7em;
+  border-radius: 10px;
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dice-btn,
+.submit-btn {
+  border-radius: 10px;
+  padding: 10px;
 }
