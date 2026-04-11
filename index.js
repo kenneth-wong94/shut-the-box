@@ -22,24 +22,35 @@ const restartBtn = document.querySelector("#restart-btn");
 const mainMenuBtn = document.querySelector("#main-menu-btn");
 
 let board = [];
-let isRunning = false;
-let isWinner = false;
 let sum = "";
 let dice1Value = "";
 let dice2Value = "";
+let selectTiles = false;
 
 initializeGame();
 
 function initializeGame() {
-  isRunning = true;
-  isWinner = false;
   sum = "";
   dice1Value = "";
   dice2Value = "";
   board = [];
-  errorMessage.innerText = "";
+  renderGame();
 }
 
+function renderGame() {
+  submitBtn.disabled = true;
+  diceBtn.disabled = false;
+  selectTiles = false;
+  errorMessage.innerText = "";
+  dice1.src = `images/inverted-dice-1.png`;
+  dice2.src = `images/inverted-dice-1.png`;
+  sumText.innerText = "Roll results";
+  messageInput.innerText = "Roll the dice to start!";
+  tiles.forEach((tile) => {
+    tile.classList.remove("disabled");
+    tile.classList.remove("selected");
+  });
+}
 function showScreen(screenName) {
   const screens = [menuScreen, rulesScreen, gameScreen];
   const activeScreen = document.getElementById(screenIDs[screenName]);
@@ -57,9 +68,7 @@ rulesBtn.addEventListener("click", () => {
   showScreen("rules");
 });
 
-restartBtn.addEventListener("click", () => {
-  showScreen("menu");
-});
+restartBtn.addEventListener("click", initializeGame);
 
 mainMenuBtn.addEventListener("click", () => {
   showScreen("menu");
@@ -100,6 +109,7 @@ tiles.forEach((tile) => {
 
 function updateTile(e) {
   const value = Number(e.target.innerText);
+  if (!selectTiles) return;
 
   if (board.includes(value)) {
     board.splice(board.indexOf(value), 1);
@@ -136,6 +146,7 @@ function submitSelection() {
   } else {
     errorMessage.innerText = "Please select valid tiles!";
     board = [];
+
     tiles.forEach((tile) => {
       tile.classList.remove("selected");
     });
@@ -144,8 +155,8 @@ function submitSelection() {
 
 function checkWinner() {
   if (valueOfRemainingTiles() === 0) {
-    messageInput.innerText = "Your a winner!";
-    isWinner = true;
+    messageInput.innerText =
+      "Congratulations, You have successfully shut the box!";
     return;
   }
 }
