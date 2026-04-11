@@ -134,14 +134,14 @@ function submitSelection() {
       if (board.includes(value)) {
         tile.classList.add("disabled");
         messageInput.innerText = "Roll the dice again!";
-        sumText.innerText = "";
+        sumText.innerText = "Roll results";
+        selectTiles = false;
         submitBtn.disabled = true;
       }
     });
     checkWinner();
-
     errorMessage.innerText = "";
-    board.length = 0;
+    board = [];
     diceBtn.disabled = false;
   } else {
     errorMessage.innerText = "Please select valid tiles!";
