@@ -41,7 +41,7 @@
         <div class="game-header">
           <h1>Try to shut the box!</h1>
           <div class="selection">
-            <p>Select up to 2 tiles to the value of the sum</p>
+            <p>Select up to 2 tiles to match the value of the sum</p>
             <h3 id="sum"></h3>
           </div>
         </div>
@@ -63,7 +63,10 @@
             src="images/inverted-dice-1.png"
             alt="dice1 img"
           />
-          <p id="message-el">Roll dice to start!</p>
+          <div class="messages">
+            <p id="message-el">Roll dice to start!</p>
+            <p id="error-message"></p>
+          </div>
           <img
             class="dice-img"
             id="dice-2"
@@ -71,14 +74,17 @@
             alt="dice2 img"
           />
         </div>
-        <div class="dice-submit-container">
-          <button class="dice-btn" id="dice-btn">Roll Dice</button>
-          <button class="submit-btn">Submit selection</button>
+        <div class="btns-container">
+          <div class="button-row">
+            <button class="dice-btn button-el" id="dice-btn">Roll Dice</button>
+            <button class="submit-btn button-el">Submit selection</button>
+          </div>
+          <div class="button-row">
+            <button class="restart-btn button-el">Restart</button>
+            <button class="button-el">Back to main Menu</button>
+          </div>
         </div>
       </div>
-
-      <!-- results page -->
-      <div id="result-screen" class="screen"></div>
     </main>
     <script src="index.js"></script>
   </body>

@@ -2,13 +2,11 @@ const screenIDs = {
   menu: "mainmenu-screen",
   rules: "rules-screen",
   game: "game-screen",
-  result: "result-screen",
 };
 
 const menuScreen = document.getElementById(screenIDs.menu);
 const rulesScreen = document.getElementById(screenIDs.rules);
 const gameScreen = document.getElementById(screenIDs.game);
-const resultScreen = document.getElementById(screenIDs.result);
 
 const startGameBtn = document.querySelector("#start-game-btn");
 const rulesBtn = document.querySelector("#rules-btn");
@@ -19,23 +17,29 @@ const sumText = document.querySelector("#sum");
 const tiles = document.querySelectorAll(".tiles");
 const submitBtn = document.querySelector(".submit-btn");
 const messageInput = document.querySelector("#message-el");
+const errorMessage = document.querySelector("#error-message");
 
 let board = [];
 let isRunning = false;
 let isWinner = false;
 let sum = "";
+let dice1Value = "";
+let dice2Value = "";
 
 initializeGame();
 
 function initializeGame() {
   isRunning = true;
   isWinner = false;
+  sum = "";
+  dice1Value = "";
+  dice2Value = "";
+  board = [];
+  errorMessage.innerText = "";
 }
 
 function showScreen(screenName) {
-  const screens = [menuScreen, rulesScreen, gameScreen, resultScreen].filter(
-    Boolean,
-  );
+  const screens = [menuScreen, rulesScreen, gameScreen];
   const activeScreen = document.getElementById(screenIDs[screenName]);
 
   screens.forEach((screen) => {
@@ -52,8 +56,8 @@ rulesBtn.addEventListener("click", () => {
 });
 
 function rollDice() {
-  let dice1Value = Math.ceil(Math.random() * 6);
-  let dice2Value = Math.ceil(Math.random() * 6);
+  dice1Value = Math.ceil(Math.random() * 6);
+  dice2Value = Math.ceil(Math.random() * 6);
 
   sum = dice1Value + dice2Value;
 
@@ -61,9 +65,20 @@ function rollDice() {
   dice2.src = `images/inverted-dice-${dice2Value}.png`;
   sumText.innerText = `You rolled ${sum}`;
 
+  if (dice1Value === dice2Value && sum > 9) {
+    messageInput.innerText = `Select ${dice1Value}`;
+  } else if (sum > 9) {
+    messageInput.innerText = `Select either ${dice1Value} or ${dice2Value}`;
+  } else if (dice1Value === dice2Value && sum <= 9)
+    messageInput.innerText = `Select either ${dice1Value} or ${sum}`;
+  else {
+    messageInput.innerText = `Select either ${dice1Value}/${dice2Value} or ${sum}`;
+  }
+
   diceBtn.disabled = true;
   submitBtn.disabled = false;
   board = [];
+  checkValidMoves();
 }
 
 diceBtn.addEventListener("click", rollDice);
@@ -92,7 +107,7 @@ submitBtn.addEventListener("click", submitSelection);
 function submitSelection() {
   const total = board.reduce((sum, num) => sum + num, 0);
 
-  if (total === sum) {
+  if (total === sum || total === dice1Value || total === dice2Value) {
     tiles.forEach((tile) => {
       const value = Number(tile.innerText);
       if (board.includes(value)) {
@@ -103,11 +118,12 @@ function submitSelection() {
       }
     });
     checkWinner();
-    checkValidMoves();
+
+    errorMessage.innerText = "";
     board.length = 0;
     diceBtn.disabled = false;
   } else {
-    messageInput.innerText = "Please select valid tiles!";
+    errorMessage.innerText = "Please select valid tiles!";
     board = [];
     tiles.forEach((tile) => {
       tile.classList.remove("selected");
@@ -116,19 +132,35 @@ function submitSelection() {
 }
 
 function checkWinner() {
-  const remainingTiles = Array.from(tiles)
-    .filter((tile) => !tile.classList.contains("disabled"))
-    .map((tile) => Number(tile.innerText));
-
-  const valueOfRemainingTiles = remainingTiles.reduce((total, ele) => {
-    return total + ele;
-  }, 0);
-
-  if (valueOfRemainingTiles === 0) {
+  if (valueOfRemainingTiles() === 0) {
     messageInput.innerText = "Your a winner!";
-    return true;
+    isWinner = true;
+    return;
   }
-  return false;
 }
 
-function checkValidMoves() {}
+function checkValidMoves() {
+  remaining = remainingTilesArr();
+
+  const checkMove =
+    remaining.includes(dice1Value) ||
+    remaining.includes(dice2Value) ||
+    remaining.includes(sum);
+
+  if (!checkMove) {
+    // handleLose();
+    console.log("lose");
+  }
+}
+
+function remainingTilesArr() {
+  return Array.from(tiles)
+    .filter((tile) => !tile.classList.contains("disabled"))
+    .map((tile) => Number(tile.innerText));
+}
+
+function valueOfRemainingTiles() {
+  return remainingTilesArr().reduce((total, ele) => {
+    return total + ele;
+  }, 0);
+}
