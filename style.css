@@ -111,6 +111,10 @@ h1 {
   background-color: hsl(34, 45%, 65%);
 }
 
+#message-el {
+  color: rgb(230, 238, 236);
+}
+
 .dices {
   margin-top: 2em;
   display: flex;
@@ -130,6 +134,10 @@ h1 {
   width: 100%;
   margin: 0;
   text-align: center;
+}
+
+#error-message {
+  color: hsl(266, 93%, 12%);
 }
 
 .dice-img {
@@ -165,6 +173,11 @@ h1 {
 
 .dice-btn:hover {
   background-color: hsl(240, 27%, 65%);
+}
+
+.back-btn {
+  color: aliceblue;
+  background-color: hsl(77, 30%, 26%);
 }
 
 .selected {

@@ -18,6 +18,8 @@ const tiles = document.querySelectorAll(".tiles");
 const submitBtn = document.querySelector(".submit-btn");
 const messageInput = document.querySelector("#message-el");
 const errorMessage = document.querySelector("#error-message");
+const restartBtn = document.querySelector("#restart-btn");
+const mainMenuBtn = document.querySelector("#main-menu-btn");
 
 let board = [];
 let isRunning = false;
@@ -55,7 +57,16 @@ rulesBtn.addEventListener("click", () => {
   showScreen("rules");
 });
 
+restartBtn.addEventListener("click", () => {
+  showScreen("menu");
+});
+
+mainMenuBtn.addEventListener("click", () => {
+  showScreen("menu");
+});
+
 function rollDice() {
+  selectTiles = true;
   dice1Value = Math.ceil(Math.random() * 6);
   dice2Value = Math.ceil(Math.random() * 6);
 
@@ -148,8 +159,10 @@ function checkValidMoves() {
     remaining.includes(sum);
 
   if (!checkMove) {
-    // handleLose();
-    console.log("lose");
+    messageInput.innerText = `You failed to shut the box. Better luck next time!`;
+    errorMessage.innerText = `Your score is: ${valueOfRemainingTiles()}`;
+    sumText.innerText = "";
+    submitBtn.disabled = true;
   }
 }
 
