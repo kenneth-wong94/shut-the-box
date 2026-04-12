@@ -25,6 +25,28 @@ h1 {
   color: black;
 }
 
+.ulh1 {
+  margin-bottom: 30px;
+}
+
+ol {
+  margin-bottom: 30px;
+}
+
+li {
+  margin-bottom: 20px;
+  font-size: 1em;
+  color: whitesmoke;
+}
+
+#back-btn {
+  margin-top: 30px;
+  padding: 10px;
+  border-radius: 15px;
+  display: block;
+  margin-right: auto;
+}
+
 .app-container,
 .btn-container {
   display: flex;

@@ -21,7 +21,7 @@
   <body>
     <main class="app-container">
       <!-- Menu page -->
-      <div id="mainmenu-screen" class="screen">
+      <div id="mainmenu-screen" class="screen active">
         <div class="logoimg">
           <img class="logo" src="images/logo.jpg" alt="shut the box logo" />
         </div>
@@ -34,10 +34,31 @@
       </div>
       <!-- rules page -->
       <div id="rules-screen" class="screen">
-        <h1>HII</h1>
+        <h1 class="ulh1">Shut The Box Rules</h1>
+        <ul>
+          <li>
+            Shut the Box is a traditional, fast-paced dice game where players
+            aim to cover, or shut, numbered tiles (1–9) based on dice rolls.
+          </li>
+          <li>
+            Players roll two dices, adding the total, and flip down tiles that
+            match that sum, either individually or in combination.
+          </li>
+          <li>Player can only close up to 2 tiles maximum</li>
+          <li>
+            E.g., if 2 dices(4 & 5), sum of 9 is rolled, you can choose to close
+            either only 4, only 5, 4 & 5, or just 9.
+          </li>
+          <li>
+            The objective is to shut all tiles to win, player loses when no
+            valid moves are possible after a roll. The final score is based on
+            the sum of remaining tiles.
+          </li>
+        </ul>
+        <button id="back-btn">Back</button>
       </div>
       <!-- game page -->
-      <div id="game-screen" class="screen active">
+      <div id="game-screen" class="screen">
         <div class="game-header">
           <h1>Try to shut the box!</h1>
           <div class="selection">

@@ -20,6 +20,7 @@ const messageInput = document.querySelector("#message-el");
 const errorMessage = document.querySelector("#error-message");
 const restartBtn = document.querySelector("#restart-btn");
 const mainMenuBtn = document.querySelector("#main-menu-btn");
+const backBtn = document.querySelector("#back-btn");
 
 let board = [];
 let sum = "";
@@ -62,6 +63,10 @@ function showScreen(screenName) {
 
 startGameBtn.addEventListener("click", () => {
   showScreen("game");
+});
+
+backBtn.addEventListener("click", () => {
+  showScreen("menu");
 });
 
 rulesBtn.addEventListener("click", () => {
@@ -132,9 +137,9 @@ function submitSelection() {
     tiles.forEach((tile) => {
       const value = Number(tile.innerText);
       if (board.includes(value)) {
-        tile.classList.add("disabled");
         messageInput.innerText = "Roll the dice again!";
         sumText.innerText = "Roll results";
+        tile.classList.add("disabled");
         selectTiles = false;
         submitBtn.disabled = true;
       }
@@ -170,7 +175,7 @@ function checkValidMoves() {
     remaining.includes(sum);
 
   if (!checkMove) {
-    messageInput.innerText = `You failed to shut the box. Better luck next time!`;
+    messageInput.innerText = `You failed to shut the box. Better luck next round!`;
     errorMessage.innerText = `Your score is: ${valueOfRemainingTiles()}`;
     sumText.innerText = "";
     submitBtn.disabled = true;
