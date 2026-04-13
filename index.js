@@ -145,7 +145,7 @@ function checkWinner() {
   if (valueOfRemainingTiles() === 0) {
     messageInput.innerText = "Congrats, You have successfully shut the box!!";
     diceBtn.disabled = true;
-    errorMessage.innerText = "";
+    errorMessage.innerText = "-Perfect score-";
   }
 }
 
