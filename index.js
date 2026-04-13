@@ -23,17 +23,26 @@ const mainMenuBtn = document.querySelector("#main-menu-btn");
 const backBtn = document.querySelector("#back-btn");
 
 let selectedTilesArr = [];
-let sum = "";
-let dice1Value = "";
-let dice2Value = "";
+let sum = 0;
+let dice1Value = 0;
+let dice2Value = 0;
 let selectTiles = false;
 
 initializeGame();
 
+function showScreen(screenName) {
+  const screens = [menuScreen, rulesScreen, gameScreen];
+  const activeScreen = document.getElementById(screenIDs[screenName]);
+
+  screens.forEach((screen) => {
+    screen.classList.toggle("active", screen === activeScreen);
+  });
+}
+
 function initializeGame() {
-  sum = "";
-  dice1Value = "";
-  dice2Value = "";
+  sum = 0;
+  dice1Value = 0;
+  dice2Value = 0;
   selectedTilesArr = [];
   renderGame();
 }
@@ -52,14 +61,6 @@ function renderGame() {
     tile.classList.remove("selected");
   });
 }
-function showScreen(screenName) {
-  const screens = [menuScreen, rulesScreen, gameScreen];
-  const activeScreen = document.getElementById(screenIDs[screenName]);
-
-  screens.forEach((screen) => {
-    screen.classList.toggle("active", screen === activeScreen);
-  });
-}
 
 function rollDice() {
   selectTiles = true;
@@ -75,7 +76,8 @@ function rollDice() {
   if (dice1Value === dice2Value && sum > 9) {
     messageInput.innerText = `Select ${dice1Value}`;
   } else if (sum > 9) {
-    messageInput.innerText = `Select either ${dice1Value} or ${dice2Value}`;
+    messageInput.innerText = `Select ${dice1Value} & ${dice2Value}`;
+    errorMessage.innerText = `You may even select a tile of ${dice1Value} or ${dice2Value}`;
   } else if (dice1Value === dice2Value && sum <= 9)
     messageInput.innerText = `Select either ${dice1Value} or ${sum}`;
   else {
@@ -135,8 +137,7 @@ function submitSelection() {
 
 function checkWinner() {
   if (valueOfRemainingTiles() === 0) {
-    messageInput.innerText =
-      "Congratulations, You have successfully shut the box!";
+    messageInput.innerText = "WOW, You have successfully shut the box!!";
     return;
   }
 }
