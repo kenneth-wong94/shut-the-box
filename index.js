@@ -70,6 +70,15 @@ function rollDice() {
 
   sum = dice1Value + dice2Value;
 
+  renderDice();
+
+  diceBtn.disabled = true;
+  submitBtn.disabled = false;
+  selectedTilesArr = [];
+  checkValidMoves();
+}
+
+function renderDice() {
   dice1.src = `images/inverted-dice-${dice1Value}.png`;
   dice2.src = `images/inverted-dice-${dice2Value}.png`;
   sumText.innerText = `You rolled ${sum}`;
@@ -85,11 +94,6 @@ function rollDice() {
     messageInput.innerText = `Select either ${dice1Value} & ${dice2Value} or ${sum}`;
     errorMessage.innerText = `You may even select a tile of ${dice1Value} or ${dice2Value}`;
   }
-
-  diceBtn.disabled = true;
-  submitBtn.disabled = false;
-  selectedTilesArr = [];
-  checkValidMoves();
 }
 
 function updateTile(e) {
@@ -122,12 +126,11 @@ function submitSelection() {
         tile.classList.add("disabled");
         selectTiles = false;
         submitBtn.disabled = true;
+        diceBtn.disabled = false;
+        errorMessage.innerText = "";
       }
     });
     checkWinner();
-    errorMessage.innerText = "";
-    selectedTilesArr = [];
-    diceBtn.disabled = false;
   } else {
     errorMessage.innerText = "Please select valid tiles!";
     selectedTilesArr = [];
@@ -141,7 +144,8 @@ function submitSelection() {
 function checkWinner() {
   if (valueOfRemainingTiles() === 0) {
     messageInput.innerText = "Congrats, You have successfully shut the box!!";
-    return;
+    diceBtn.disabled = true;
+    errorMessage.innerText = "";
   }
 }
 
@@ -158,6 +162,7 @@ function checkValidMoves() {
     errorMessage.innerText = `Your score is: ${valueOfRemainingTiles()}`;
     sumText.innerText = "";
     submitBtn.disabled = true;
+    selectTiles = false;
   }
 }
 
