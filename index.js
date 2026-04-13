@@ -89,10 +89,6 @@ function rollDice() {
   checkValidMoves();
 }
 
-tiles.forEach((tile) => {
-  tile.addEventListener("click", updateTile);
-});
-
 function updateTile(e) {
   const value = Number(e.target.innerText);
   if (!selectTiles) return;
@@ -172,6 +168,10 @@ function valueOfRemainingTiles() {
     return total + ele;
   }, 0);
 }
+
+tiles.forEach((tile) => {
+  tile.addEventListener("click", updateTile);
+});
 
 submitBtn.addEventListener("click", submitSelection);
 restartBtn.addEventListener("click", initializeGame);
