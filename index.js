@@ -22,7 +22,7 @@ const restartBtn = document.querySelector("#restart-btn");
 const mainMenuBtn = document.querySelector("#main-menu-btn");
 const backBtn = document.querySelector("#back-btn");
 
-let board = [];
+let selectedTilesArr = [];
 let sum = "";
 let dice1Value = "";
 let dice2Value = "";
@@ -34,7 +34,7 @@ function initializeGame() {
   sum = "";
   dice1Value = "";
   dice2Value = "";
-  board = [];
+  selectedTilesArr = [];
   renderGame();
 }
 
@@ -85,7 +85,7 @@ function rollDice() {
 
   diceBtn.disabled = true;
   submitBtn.disabled = false;
-  board = [];
+  selectedTilesArr = [];
   checkValidMoves();
 }
 
@@ -97,25 +97,25 @@ function updateTile(e) {
   const value = Number(e.target.innerText);
   if (!selectTiles) return;
 
-  if (board.includes(value)) {
-    board.splice(board.indexOf(value), 1);
+  if (selectedTilesArr.includes(value)) {
+    selectedTilesArr.splice(selectedTilesArr.indexOf(value), 1);
     e.target.classList.remove("selected");
     return;
   }
 
   if (e.target.classList.contains("disabled")) return;
 
-  board.push(value);
+  selectedTilesArr.push(value);
   e.target.classList.add("selected");
 }
 
 function submitSelection() {
-  const total = board.reduce((sum, num) => sum + num, 0);
+  const total = selectedTilesArr.reduce((sum, num) => sum + num, 0);
 
   if (total === sum || total === dice1Value || total === dice2Value) {
     tiles.forEach((tile) => {
       const value = Number(tile.innerText);
-      if (board.includes(value)) {
+      if (selectedTilesArr.includes(value)) {
         messageInput.innerText = "Roll the dice again!";
         sumText.innerText = "Roll results";
         tile.classList.add("disabled");
@@ -125,11 +125,11 @@ function submitSelection() {
     });
     checkWinner();
     errorMessage.innerText = "";
-    board = [];
+    selectedTilesArr = [];
     diceBtn.disabled = false;
   } else {
     errorMessage.innerText = "Please select valid tiles!";
-    board = [];
+    selectedTilesArr = [];
 
     tiles.forEach((tile) => {
       tile.classList.remove("selected");
@@ -148,12 +148,12 @@ function checkWinner() {
 function checkValidMoves() {
   remaining = remainingTilesArr();
 
-  const checkMove =
+  const validMove =
     remaining.includes(dice1Value) ||
     remaining.includes(dice2Value) ||
     remaining.includes(sum);
 
-  if (!checkMove) {
+  if (!validMove) {
     messageInput.innerText = `You failed to shut the box. Better luck next round!`;
     errorMessage.innerText = `Your score is: ${valueOfRemainingTiles()}`;
     sumText.innerText = "";
