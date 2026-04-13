@@ -61,24 +61,6 @@ function showScreen(screenName) {
   });
 }
 
-startGameBtn.addEventListener("click", () => {
-  showScreen("game");
-});
-
-backBtn.addEventListener("click", () => {
-  showScreen("menu");
-});
-
-rulesBtn.addEventListener("click", () => {
-  showScreen("rules");
-});
-
-restartBtn.addEventListener("click", initializeGame);
-
-mainMenuBtn.addEventListener("click", () => {
-  showScreen("menu");
-});
-
 function rollDice() {
   selectTiles = true;
   dice1Value = Math.ceil(Math.random() * 6);
@@ -97,7 +79,8 @@ function rollDice() {
   } else if (dice1Value === dice2Value && sum <= 9)
     messageInput.innerText = `Select either ${dice1Value} or ${sum}`;
   else {
-    messageInput.innerText = `Select either ${dice1Value}/${dice2Value} or ${sum}`;
+    messageInput.innerText = `Select either ${dice1Value} & ${dice2Value} or ${sum}`;
+    errorMessage.innerText = `You may even select a tile of ${dice1Value} or ${dice2Value}`;
   }
 
   diceBtn.disabled = true;
@@ -105,8 +88,6 @@ function rollDice() {
   board = [];
   checkValidMoves();
 }
-
-diceBtn.addEventListener("click", rollDice);
 
 tiles.forEach((tile) => {
   tile.addEventListener("click", updateTile);
@@ -127,8 +108,6 @@ function updateTile(e) {
   board.push(value);
   e.target.classList.add("selected");
 }
-
-submitBtn.addEventListener("click", submitSelection);
 
 function submitSelection() {
   const total = board.reduce((sum, num) => sum + num, 0);
@@ -193,3 +172,23 @@ function valueOfRemainingTiles() {
     return total + ele;
   }, 0);
 }
+
+submitBtn.addEventListener("click", submitSelection);
+restartBtn.addEventListener("click", initializeGame);
+diceBtn.addEventListener("click", rollDice);
+
+startGameBtn.addEventListener("click", () => {
+  showScreen("game");
+});
+
+backBtn.addEventListener("click", () => {
+  showScreen("menu");
+});
+
+rulesBtn.addEventListener("click", () => {
+  showScreen("rules");
+});
+
+mainMenuBtn.addEventListener("click", () => {
+  showScreen("menu");
+});
