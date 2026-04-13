@@ -56,6 +56,7 @@ function renderGame() {
   dice2.src = `images/inverted-dice-1.png`;
   sumText.innerText = "Roll results";
   messageInput.innerText = "Roll the dice to start!";
+
   tiles.forEach((tile) => {
     tile.classList.remove("disabled");
     tile.classList.remove("selected");
@@ -101,6 +102,8 @@ function updateTile(e) {
     return;
   }
 
+  if (selectedTilesArr.length >= 2) return;
+
   if (e.target.classList.contains("disabled")) return;
 
   selectedTilesArr.push(value);
@@ -137,7 +140,7 @@ function submitSelection() {
 
 function checkWinner() {
   if (valueOfRemainingTiles() === 0) {
-    messageInput.innerText = "WOW, You have successfully shut the box!!";
+    messageInput.innerText = "Congrats, You have successfully shut the box!!";
     return;
   }
 }
