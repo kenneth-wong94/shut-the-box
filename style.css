@@ -219,4 +219,5 @@ li {
 
 .disabled {
   background-color: black;
+  pointer-events: none;
 }
