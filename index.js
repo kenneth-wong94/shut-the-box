@@ -142,7 +142,6 @@ function submitSelection() {
         messageInput.innerText = "Roll the dice again!";
         sumText.innerText = "Roll results";
         tile.classList.add("disabled");
-        tile.style.pointerEvents = "none";
         board = board.filter((num) => !selectedTilesArr.includes(num));
         selectTiles = false;
         submitBtn.disabled = true;
