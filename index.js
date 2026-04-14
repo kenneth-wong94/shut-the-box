@@ -66,17 +66,34 @@ function renderGame() {
 }
 
 function rollDice() {
-  selectTiles = true;
-  dice1Value = Math.ceil(Math.random() * 6);
-  dice2Value = Math.ceil(Math.random() * 6);
-
-  sum = dice1Value + dice2Value;
+  selectTiles = false;
   diceBtn.disabled = true;
-  submitBtn.disabled = false;
-  selectedTilesArr = [];
+  submitBtn.disabled = true;
+  messageInput.innerText = "";
+  errorMessage.innerText = "";
 
-  renderDice();
-  checkValidMoves();
+  let rollInterval = setInterval(() => {
+    let roll1 = Math.ceil(Math.random() * 6);
+    let roll2 = Math.ceil(Math.random() * 6);
+
+    dice1.src = `images/inverted-dice-${roll1}.png`;
+    dice2.src = `images/inverted-dice-${roll2}.png`;
+  }, 30);
+
+  setTimeout(() => {
+    clearInterval(rollInterval);
+
+    dice1Value = Math.ceil(Math.random() * 6);
+    dice2Value = Math.ceil(Math.random() * 6);
+    sum = dice1Value + dice2Value;
+
+    selectTiles = true;
+    submitBtn.disabled = false;
+    selectedTilesArr = [];
+
+    renderDice();
+    checkValidMoves();
+  }, 500);
 }
 
 function renderDice() {
@@ -125,6 +142,7 @@ function submitSelection() {
         messageInput.innerText = "Roll the dice again!";
         sumText.innerText = "Roll results";
         tile.classList.add("disabled");
+        tile.style.pointerEvents = "none";
         board = board.filter((num) => !selectedTilesArr.includes(num));
         selectTiles = false;
         submitBtn.disabled = true;
