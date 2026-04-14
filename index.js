@@ -148,6 +148,11 @@ function checkWinner() {
     messageInput.innerText = "Congrats, You have successfully shut the box!!";
     diceBtn.disabled = true;
     errorMessage.innerText = "-Perfect score-";
+
+    dice1.src =
+      "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm50ZmZ6dXRhaWppY3h0eXdxbHl2a2VhOWJ0N2U5NTJrdHprb2VxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jZBNTtZPbRlr52dOUt/giphy.gif";
+    dice2.src =
+      "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm50ZmZ6dXRhaWppY3h0eXdxbHl2a2VhOWJ0N2U5NTJrdHprb2VxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jZBNTtZPbRlr52dOUt/giphy.gif";
   }
 }
 
