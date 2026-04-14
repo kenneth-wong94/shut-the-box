@@ -27,6 +27,7 @@ let sum = 0;
 let dice1Value = 0;
 let dice2Value = 0;
 let selectTiles = false;
+board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 initializeGame();
 
@@ -44,6 +45,7 @@ function initializeGame() {
   dice1Value = 0;
   dice2Value = 0;
   selectedTilesArr = [];
+  board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   renderGame();
 }
 
@@ -69,12 +71,11 @@ function rollDice() {
   dice2Value = Math.ceil(Math.random() * 6);
 
   sum = dice1Value + dice2Value;
-
-  renderDice();
-
   diceBtn.disabled = true;
   submitBtn.disabled = false;
   selectedTilesArr = [];
+
+  renderDice();
   checkValidMoves();
 }
 
@@ -108,7 +109,7 @@ function updateTile(e) {
 
   if (selectedTilesArr.length >= 2) return;
 
-  if (e.target.classList.contains("disabled")) return;
+  if (!board.includes(value)) return;
 
   selectedTilesArr.push(value);
   e.target.classList.add("selected");
@@ -124,6 +125,7 @@ function submitSelection() {
         messageInput.innerText = "Roll the dice again!";
         sumText.innerText = "Roll results";
         tile.classList.add("disabled");
+        board = board.filter((num) => !selectedTilesArr.includes(num));
         selectTiles = false;
         submitBtn.disabled = true;
         diceBtn.disabled = false;
@@ -150,12 +152,10 @@ function checkWinner() {
 }
 
 function checkValidMoves() {
-  remaining = remainingTilesArr();
-
   const validMove =
-    remaining.includes(dice1Value) ||
-    remaining.includes(dice2Value) ||
-    remaining.includes(sum);
+    board.includes(dice1Value) ||
+    board.includes(dice2Value) ||
+    board.includes(sum);
 
   if (!validMove) {
     messageInput.innerText = `You failed to shut the box. Better luck next round!`;
@@ -166,14 +166,8 @@ function checkValidMoves() {
   }
 }
 
-function remainingTilesArr() {
-  return Array.from(tiles)
-    .filter((tile) => !tile.classList.contains("disabled"))
-    .map((tile) => Number(tile.innerText));
-}
-
 function valueOfRemainingTiles() {
-  return remainingTilesArr().reduce((total, ele) => {
+  return board.reduce((total, ele) => {
     return total + ele;
   }, 0);
 }
