@@ -27,7 +27,7 @@ let sum = 0;
 let dice1Value = 0;
 let dice2Value = 0;
 let selectTiles = false;
-board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 initializeGame();
 
