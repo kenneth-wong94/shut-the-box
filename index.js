@@ -10,6 +10,7 @@ const gameScreen = document.getElementById(screenIDs.game);
 
 const startGameBtn = document.querySelector("#start-game-btn");
 const rulesBtn = document.querySelector("#rules-btn");
+const multiplayerBtn = document.querySelector("#multiplayer-btn");
 const diceBtn = document.querySelector("#dice-btn");
 const dice1 = document.querySelector("#dice-1");
 const dice2 = document.querySelector("#dice-2");
@@ -21,6 +22,7 @@ const errorMessage = document.querySelector("#error-message");
 const restartBtn = document.querySelector("#restart-btn");
 const mainMenuBtn = document.querySelector("#main-menu-btn");
 const backBtn = document.querySelector("#back-btn");
+const topMessage = document.querySelector(".top-message");
 
 let selectedTilesArr = [];
 let sum = 0;
@@ -28,6 +30,16 @@ let dice1Value = 0;
 let dice2Value = 0;
 let selectTiles = false;
 let board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let multiPlayer = false;
+let player1 = {
+  name: "Player 1",
+  score: 0,
+};
+let player2 = {
+  name: "Player 2",
+  score: 0,
+};
+let currentPlayer = player1;
 
 initializeGame();
 
@@ -40,12 +52,18 @@ function showScreen(screenName) {
   });
 }
 
+function switchTurn() {
+  currentPlayer = currentPlayer === player1 ? player2 : player1;
+}
+
 function initializeGame() {
   sum = 0;
   dice1Value = 0;
   dice2Value = 0;
-  selectedTilesArr = [];
-  board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  player1.score = 0;
+  player2.score = 0;
+  currentPlayer = player1;
+
   renderGame();
 }
 
@@ -54,6 +72,8 @@ function renderGame() {
   diceBtn.disabled = false;
   selectTiles = false;
   errorMessage.innerText = "";
+  selectedTilesArr = [];
+  board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   dice1.src = `images/inverted-dice-1.png`;
   dice2.src = `images/inverted-dice-1.png`;
   sumText.innerText = "Roll results";
@@ -63,6 +83,10 @@ function renderGame() {
     tile.classList.remove("disabled");
     tile.classList.remove("selected");
   });
+
+  if (multiPlayer) {
+    topMessage.innerText = `${currentPlayer.name}'s turn`;
+  }
 }
 
 function rollDice() {
@@ -170,6 +194,8 @@ function checkWinner() {
       "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm50ZmZ6dXRhaWppY3h0eXdxbHl2a2VhOWJ0N2U5NTJrdHprb2VxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jZBNTtZPbRlr52dOUt/giphy.gif";
     dice2.src =
       "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm50ZmZ6dXRhaWppY3h0eXdxbHl2a2VhOWJ0N2U5NTJrdHprb2VxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jZBNTtZPbRlr52dOUt/giphy.gif";
+
+    checkMultiPlayerMode(0);
   }
 }
 
@@ -180,11 +206,49 @@ function checkValidMoves() {
     board.includes(sum);
 
   if (!validMove) {
-    messageInput.innerText = `You failed to shut the box. Better luck next round!`;
-    errorMessage.innerText = `Your score is: ${valueOfRemainingTiles()}`;
+    const score = valueOfRemainingTiles();
+    messageInput.innerText = `${currentPlayer.name} failed to shut the box. Better luck next round!`;
+    errorMessage.innerText = `Your score is: ${score}`;
     sumText.innerText = "";
     submitBtn.disabled = true;
     selectTiles = false;
+
+    checkMultiPlayerMode(score);
+  }
+}
+
+function checkMultiPlayerMode(score) {
+  if (multiPlayer) {
+    if (currentPlayer === player1) {
+      currentPlayer.score = score;
+      switchTurn();
+
+      setTimeout(() => {
+        renderGame();
+        topMessage.innerText = `${currentPlayer.name}'s turn`;
+      }, 3000);
+    } else {
+      currentPlayer.score = score;
+      setTimeout(() => {
+        declareWinner();
+      }, 3000);
+    }
+  }
+}
+
+function declareWinner() {
+  diceBtn.disabled = true;
+  submitBtn.disabled = true;
+
+  if (player1.score < player2.score) {
+    messageInput.innerText = `player 1 is the winner with a score of ${player1.score}!`;
+    errorMessage.innerText = `player 1 score: ${player1.score} , player 2 score: ${player2.score}`;
+  } else if (player1.score > player2.score) {
+    messageInput.innerText = `player 2 is the winner with a score of ${player2.score}!`;
+    errorMessage.innerText = `player 1 score: ${player1.score} , player 2 score: ${player2.score}`;
+  } else {
+    messageInput.innerText = `Its a tie!`;
+    errorMessage.innerText = `player 1 score: ${player1.score} , player 2 score: ${player2.score}`;
   }
 }
 
@@ -203,6 +267,9 @@ restartBtn.addEventListener("click", initializeGame);
 diceBtn.addEventListener("click", rollDice);
 
 startGameBtn.addEventListener("click", () => {
+  multiPlayer = false;
+  topMessage.innerText = "";
+  initializeGame();
   showScreen("game");
 });
 
@@ -214,6 +281,14 @@ rulesBtn.addEventListener("click", () => {
   showScreen("rules");
 });
 
+multiplayerBtn.addEventListener("click", () => {
+  showScreen("game");
+  currentPlayer = player1;
+  multiPlayer = true;
+  initializeGame();
+});
+
 mainMenuBtn.addEventListener("click", () => {
+  multiPlayer = false;
   showScreen("menu");
 });
